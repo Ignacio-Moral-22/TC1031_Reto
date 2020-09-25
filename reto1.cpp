@@ -24,9 +24,6 @@ int main(){
     std::cout << dia2 << std::endl;
     Sorter<Registros<std::string>> organizar;
     organizar.selectionSort(registros, &compare_text);
-    for(size_t i=0; i<registros.size(); i++){
-        registros.at(i).print();
-    }
     countNames(registros);
 
 
