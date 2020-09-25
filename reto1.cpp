@@ -12,7 +12,7 @@ Fecha de creacion: 17 de septiembre de 2020
 Fecha de modificacion final: 24 de septiembre de 2020
 */
 
-bool compare_text(Registros<std::string> &a, Registros<std::string> &b){
+bool compareHostNameFuente(Registros<std::string> &a, Registros<std::string> &b){
     return a.fuenteHost()<b.fuenteHost();
 }
 
@@ -23,7 +23,7 @@ int main(){
     dia2=segundoDia(registros);
     std::cout << dia2 << std::endl;
     Sorter<Registros<std::string>> organizar;
-    organizar.selectionSort(registros, &compare_text);
+    organizar.selectionSort(registros, &compareHostNameFuente);
     countNames(registros);
 
 

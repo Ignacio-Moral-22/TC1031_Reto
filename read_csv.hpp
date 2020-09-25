@@ -64,8 +64,8 @@ void countNames(vector<class Registros<string>> &registros){
     };
     int posiciones[nameCount];
     for(int j=0; j<nameCount; j++){
-        posiciones[j]=busqueda_binaria<string>(0, registros.size(), names[j], registros);
-        cout<<posiciones[j];
+        posiciones[j]=busquedaBinariaHostNameFuente<string>(0, registros.size(), names[j], registros);
+        cout<<posiciones[j]<<endl;
     };
 
 
