@@ -30,9 +30,26 @@ class Registros{
             return fecha;
         };
 
+        std::string fuenteIP(){
+            return ipFuente;
+        };
+        
+        std::string fuentePuerto(){
+            return puertoFuente;
+        };
+
         std::string fuenteHost(){
             return hostNameFuente;
         };
+        
+        std::string destinoPuerto(){
+            return puertoDestino;
+        };
+        
+        std::string destinoHost(){
+            return hostNameDestino;
+        };
+
         /*
         std::string hora(){
             return hora;

@@ -14,7 +14,13 @@ Fecha de modificacion final: 24 de septiembre de 2020
 
 bool compareHostNameFuente(Registros<std::string> &a, Registros<std::string> &b){
     return a.fuenteHost()<b.fuenteHost();
-}
+};
+
+bool comparePuertoFuente(Registros<std::string> &a, Registros<std::string> &b){
+    return a.fuentePuerto()<b.fuentePuerto();
+};
+
+
 
 int main(){
     std::vector<class Registros<std::string>> registros;
