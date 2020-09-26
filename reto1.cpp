@@ -29,7 +29,7 @@ int main(){
     dia2=segundoDia(registros);
     std::cout << dia2 << std::endl;
     Sorter<Registros<std::string>> organizar;
-    organizar.selectionSort(registros, &compareHostNameFuente);
+    organizar.ordenaQuick(registros, &compareHostNameFuente);
     countNames(registros);
 
 
