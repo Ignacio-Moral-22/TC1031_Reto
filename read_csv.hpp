@@ -52,33 +52,81 @@ int segundoDia(std::vector<class Registros<std::string>> &registros){
     return contar_dia_2;
 };
 
-void countNames(vector<class Registros<string>> &registros){
+void countNames(std::vector<class Registros<std::string>> &registros){
     int nameCount;
-    cout<<"Cuantos nombres quieres buscar?" << endl;
-    cin >> nameCount;
-    string names[nameCount], name[nameCount];
+    std::cout<<"Cuantos nombres quieres buscar?" << std::endl;
+    std::cin >> nameCount;
+    std::string names[nameCount], name[nameCount];
     for(int i=0; i<nameCount; i++){
-        cout << "Escribe el nombre en minusculas" << endl;
-        cin >> name[i];
+        std::cout << "Escribe el nombre en minusculas" << std::endl;
+        std::cin >> name[i];
         names[i]=name[i];
         names[i].append(".reto.com");
     };
+
+    std::vector<std::string> nombres;
+    for(int i=0; i<registros.size(); i++){
+        std::string hostDestino = registros.at(i).fuenteHost();
+        nombres.push_back(hostDestino);
+    }
+
     int posiciones[nameCount];
     for(int j=0; j<nameCount; j++){
-        posiciones[j]=busquedaBinariaHostNameFuente<string>(0, registros.size()-1, names[j], registros);
+        posiciones[j]=busquedaBinaria<string>(0, nombres.size()-1, names[j], nombres);
         if(posiciones[j]==-1){
-            cout << name[j] << " no es un empleado de la empresa." << endl;
+            std::cout << name[j] << " no es un empleado de la empresa." << std::endl;
         } else {
-            cout << name[j] << " si trabaja en la empresa." << endl;
+            std::cout << name[j] << " si trabaja en la empresa." << std::endl;
         }
     };
 
 };
 
-
-void direccionIP(vector<class Registros<string>> &registros){
-    string ipCompania = registros.at(registros.size()-1).fuenteIP();
+void direccionIP(std::vector<class Registros<std::string>> &registros){
+    std::string ipCompania = registros.at(registros.size()-1).fuenteIP();
     ipCompania.erase(10,ipCompania.length()-10);
     ipCompania.append(".0");
-    cout << "La direccion IP de la compania es " << ipCompania << endl;
+    std::cout << "La direccion IP de la compania es " << ipCompania << std::endl;
+}
+
+void correos(std::vector<class Registros<std::string>> &registros){
+    int contarCorreos;
+    std::cout<<"Cuantos correos quieres buscar?" << std::endl;
+    std::cin >> contarCorreos;
+    std::string correos[contarCorreos];
+    for(int i=0; i<contarCorreos; i++){
+        std::cout << "Escribe el nombre en minusculas" << std::endl;
+        std::cin >> correos[i];
+        correos[i].append(".com");
+    };
+
+    std::vector<std::string> hostNames;
+    for(int i=0; i<registros.size(); i++){
+        std::string hostDestino = registros.at(i).destinoHost();
+        hostNames.push_back(hostDestino);
+    }
+
+    int posiciones[contarCorreos];
+    for(int j=0; j<contarCorreos; j++){
+        posiciones[j]=busquedaBinaria<string>(0, hostNames.size()-1, correos[j], hostNames);
+        if(posiciones[j]==-1){
+            std::cout << correos[j] << " no es un correo que se usa en la empresa." << std::endl;
+        } else {
+            std::cout << correos[j] << " si es un correo que se usa en la empresa." << std::endl;
+        }
+    };
+}
+
+void countPuertos(std::vector<class Registros<std::string>> &registros){
+    std::vector<std::string> puertos;
+    int check;
+    for(int i=0; i<registros.size(); i++){
+        check=busquedaBinaria(0, puertos.size()-1, registros.at(i).destinoPuerto(), puertos);
+        if(check==-1){
+            puertos.push_back(registros.at(i).destinoPuerto());
+        }
+    }
+    for(int j=0; j<puertos.size(); j++){
+        std::cout << puertos.at(j) << std::endl;
+    }
 }

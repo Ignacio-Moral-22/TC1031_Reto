@@ -20,11 +20,6 @@ class Registros{
             hostNameDestino = hnd;
         };
         ~Registros(){};
-
-        void print(){
-            //std::cout << "Fecha: " << fecha << ", Hora: " << hora << ", IP Fuente: " << ipFuente << "\n";
-            std::cout << "Host Name Fuente: " << hostNameFuente << std::endl;
-        };
         
         std::string date(){
             return fecha;
@@ -32,10 +27,6 @@ class Registros{
 
         std::string fuenteIP(){
             return ipFuente;
-        };
-        
-        std::string fuentePuerto(){
-            return puertoFuente;
         };
 
         std::string fuenteHost(){
@@ -50,11 +41,6 @@ class Registros{
             return hostNameDestino;
         };
 
-        /*
-        std::string hora(){
-            return hora;
-        };
-        */
 };
 
 

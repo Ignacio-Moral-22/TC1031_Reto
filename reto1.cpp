@@ -20,6 +20,13 @@ bool compareIPFuente(Registros<std::string> &a, Registros<std::string> &b){
     return a.fuenteIP()<b.fuenteIP();
 };
 
+bool comparePuertoDestino(Registros<std::string> &a, Registros<std::string> &b){
+    return a.destinoPuerto()<b.destinoPuerto();
+};
+
+bool compareHostNameDestino(Registros<std::string> &a, Registros<std::string> &b){
+    return a.destinoHost()<b.destinoHost();
+};
 
 
 
@@ -28,13 +35,17 @@ int main(){
     registros=readRecords();
     int dia2;
     dia2=segundoDia(registros);
-    std::cout << dia2 << std::endl;
+    std::cout << "Hay " << dia2 << " en el segundo dia." << std::endl;
     Sorter<Registros<std::string>> organizar;
     organizar.ordenaQuick(registros, &compareHostNameFuente);
     countNames(registros);
     organizar.ordenaQuick(registros, &compareIPFuente);
     direccionIP(registros);
+    organizar.ordenaQuick(registros, &compareHostNameDestino);
+    correos(registros);
 
+    organizar.ordenaQuick(registros, &comparePuertoDestino);
+    countPuertos(registros);
 
     return 0;
 }
