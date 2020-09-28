@@ -9,7 +9,7 @@ Descripcion Breve...
 Ignacio Joaquin Moral
 A01028470
 Fecha de creacion: 17 de septiembre de 2020
-Fecha de modificacion final: 24 de septiembre de 2020
+Fecha de modificacion final: 27 de septiembre de 2020
 */
 
 bool compareHostNameFuente(Registros<std::string> &a, Registros<std::string> &b){

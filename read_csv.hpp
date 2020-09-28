@@ -7,19 +7,19 @@
 #include "busqueda.hpp"
 using namespace std;
 
-vector<class Registros<string>> readRecords(){
-    ifstream valores("equipo10.csv");
-    string fecha, hora, ipFuente, puertoFuente, hostNameFuente, ipDestino, puertoDestino, hostNameDestino;
-    vector<class Registros<string>> registros;
+std::vector<class Registros<std::string>> readRecords(){
+    std::ifstream valores("equipo10.csv");
+    std::string fecha, hora, ipFuente, puertoFuente, hostNameFuente, ipDestino, puertoDestino, hostNameDestino;
+    std::vector<class Registros<string>> registros;
     while (valores.peek()!=EOF){
-        getline(valores, fecha, ',');
-        getline(valores, hora, ',');
-        getline(valores, ipFuente, ',');
-        getline(valores, puertoFuente, ',');
-        getline(valores, hostNameFuente, ',');
-        getline(valores, ipDestino, ',');
-        getline(valores, puertoDestino, ',');
-        getline(valores, hostNameDestino, '\n');
+        std::getline(valores, fecha, ',');
+        std::getline(valores, hora, ',');
+        std::getline(valores, ipFuente, ',');
+        std::getline(valores, puertoFuente, ',');
+        std::getline(valores, hostNameFuente, ',');
+        std::getline(valores, ipDestino, ',');
+        std::getline(valores, puertoDestino, ',');
+        std::getline(valores, hostNameDestino, '\n');
         Registros<string> r(fecha, hora, ipFuente, puertoFuente, hostNameFuente, ipDestino, puertoDestino, hostNameDestino);
         registros.push_back(r);
     }
@@ -29,13 +29,13 @@ vector<class Registros<string>> readRecords(){
         count+=1;
     }
 
-    cout << "El archivo tiene " << count << " registros." << endl;
+    std::cout << "El archivo tiene " << count << " registros." << std::endl;
     valores.close();
     return registros;
 };
 
-int segundoDia(vector<class Registros<string>> &registros){
-    string dia1, dia2 = "";
+int segundoDia(std::vector<class Registros<std::string>> &registros){
+    std::string dia1, dia2 = "";
     int contador_iterativo = 0;
     int contar_dia_2 = 0;
     dia1=registros.at(contador_iterativo).date();
@@ -65,7 +65,7 @@ void countNames(vector<class Registros<string>> &registros){
     };
     int posiciones[nameCount];
     for(int j=0; j<nameCount; j++){
-        posiciones[j]=busquedaBinariaHostNameFuente<string>(0, registros.size(), names[j], registros);
+        posiciones[j]=busquedaBinariaHostNameFuente<string>(0, registros.size()-1, names[j], registros);
         if(posiciones[j]==-1){
             cout << name[j] << " no es un empleado de la empresa." << endl;
         } else {
