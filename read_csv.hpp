@@ -32,7 +32,7 @@ vector<class Registros<string>> readRecords(){
     cout << "El archivo tiene " << count << " registros." << endl;
     valores.close();
     return registros;
-}
+};
 
 int segundoDia(vector<class Registros<string>> &registros){
     string dia1, dia2 = "";
@@ -50,23 +50,35 @@ int segundoDia(vector<class Registros<string>> &registros){
     }
     cout<<"El segundo dia es " << dia2 << endl;
     return contar_dia_2;
-}
+};
 
 void countNames(vector<class Registros<string>> &registros){
     int nameCount;
-    cout<<"How many names do you wish to create?" << endl;
+    cout<<"Cuantos nombres quieres buscar?" << endl;
     cin >> nameCount;
-    string names[nameCount];
+    string names[nameCount], name[nameCount];
     for(int i=0; i<nameCount; i++){
-        cout << "Write a name." << endl;
-        cin >> names[i];
+        cout << "Escribe el nombre en minusculas" << endl;
+        cin >> name[i];
+        names[i]=name[i];
         names[i].append(".reto.com");
     };
     int posiciones[nameCount];
     for(int j=0; j<nameCount; j++){
         posiciones[j]=busquedaBinariaHostNameFuente<string>(0, registros.size(), names[j], registros);
-        cout<<posiciones[j]<<endl;
+        if(posiciones[j]==-1){
+            cout << name[j] << " no es un empleado de la empresa." << endl;
+        } else {
+            cout << name[j] << " si trabaja en la empresa." << endl;
+        }
     };
 
+};
 
+
+void direccionIP(vector<class Registros<string>> &registros){
+    string ipCompania = registros.at(registros.size()-1).fuenteIP();
+    ipCompania.erase(10,ipCompania.length()-10);
+    ipCompania.append(".0");
+    cout << "La direccion IP de la compania es " << ipCompania << endl;
 }

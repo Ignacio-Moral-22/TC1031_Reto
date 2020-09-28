@@ -17,20 +17,6 @@ public:
         arr.at(j) = aux;
     };
 
-    void selectionSort(std::vector<T> &arr, bool (*compare)(T &a, T &b))
-    {
-        for (size_t i = 0; i < arr.size()-1; i++)
-        {
-            size_t minimum = i;
-            for (size_t j = i + 1; j < arr.size(); j++)
-            {
-                if ((*compare)(arr[j], arr[minimum]))
-                    minimum = j;
-            }
-            swap(i, minimum, arr);
-        }
-    };
-
     void ordenaQuick(std::vector<T> &Q, bool (*compare)(T &a, T &b)){
         quicksort(Q, 0, Q.size()-1, *compare);
     };

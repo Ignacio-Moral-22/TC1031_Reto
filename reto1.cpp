@@ -16,9 +16,10 @@ bool compareHostNameFuente(Registros<std::string> &a, Registros<std::string> &b)
     return a.fuenteHost()<b.fuenteHost();
 };
 
-bool comparePuertoFuente(Registros<std::string> &a, Registros<std::string> &b){
-    return a.fuentePuerto()<b.fuentePuerto();
+bool compareIPFuente(Registros<std::string> &a, Registros<std::string> &b){
+    return a.fuenteIP()<b.fuenteIP();
 };
+
 
 
 
@@ -31,6 +32,8 @@ int main(){
     Sorter<Registros<std::string>> organizar;
     organizar.ordenaQuick(registros, &compareHostNameFuente);
     countNames(registros);
+    organizar.ordenaQuick(registros, &compareIPFuente);
+    direccionIP(registros);
 
 
     return 0;
