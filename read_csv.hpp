@@ -5,12 +5,11 @@
 #include <iostream>
 #include "clase_archivo.hpp"
 #include "busqueda.hpp"
-using namespace std;
 
 std::vector<class Registros<std::string>> readRecords(){
     std::ifstream valores("equipo10.csv");
     std::string fecha, hora, ipFuente, puertoFuente, hostNameFuente, ipDestino, puertoDestino, hostNameDestino;
-    std::vector<class Registros<string>> registros;
+    std::vector<class Registros<std::string>> registros;
     while (valores.peek()!=EOF){
         std::getline(valores, fecha, ',');
         std::getline(valores, hora, ',');
@@ -20,7 +19,7 @@ std::vector<class Registros<std::string>> readRecords(){
         std::getline(valores, ipDestino, ',');
         std::getline(valores, puertoDestino, ',');
         std::getline(valores, hostNameDestino, '\n');
-        Registros<string> r(fecha, hora, ipFuente, puertoFuente, hostNameFuente, ipDestino, puertoDestino, hostNameDestino);
+        Registros<std::string> r(fecha, hora, ipFuente, puertoFuente, hostNameFuente, ipDestino, puertoDestino, hostNameDestino);
         registros.push_back(r);
     }
     
@@ -48,7 +47,7 @@ int segundoDia(std::vector<class Registros<std::string>> &registros){
         contar_dia_2++;
         contador_iterativo++;
     }
-    cout<<"El segundo dia es " << dia2 << endl;
+    std::cout<<"El segundo dia es " << dia2 << std::endl;
     return contar_dia_2;
 };
 
@@ -72,7 +71,7 @@ void countNames(std::vector<class Registros<std::string>> &registros){
 
     int posiciones[nameCount];
     for(int j=0; j<nameCount; j++){
-        posiciones[j]=busquedaBinaria<string>(0, nombres.size()-1, names[j], nombres);
+        posiciones[j]=busquedaBinaria<std::string>(0, nombres.size()-1, names[j], nombres);
         if(posiciones[j]==-1){
             std::cout << name[j] << " no es un empleado de la empresa." << std::endl;
         } else {
@@ -108,7 +107,7 @@ void correos(std::vector<class Registros<std::string>> &registros){
 
     int posiciones[contarCorreos];
     for(int j=0; j<contarCorreos; j++){
-        posiciones[j]=busquedaBinaria<string>(0, hostNames.size()-1, correos[j], hostNames);
+        posiciones[j]=busquedaBinaria<std::string>(0, hostNames.size()-1, correos[j], hostNames);
         if(posiciones[j]==-1){
             std::cout << correos[j] << " no es un correo que se usa en la empresa." << std::endl;
         } else {

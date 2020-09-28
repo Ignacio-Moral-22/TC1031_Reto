@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 #include "clase_archivo.hpp"
 template <typename T>
@@ -14,3 +15,4 @@ int busquedaBinaria(int inicio, int final, T valor, std::vector<T> &valores){
     }
     return -1;
 }
+
