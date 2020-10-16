@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
+
 /*
 Para esta actividad, se nos encargó de generar un programa que leyera una carga de archivos, 
 y que pudiera responder ciertas preguntas, además de que implementamos métodos de búsqueda 

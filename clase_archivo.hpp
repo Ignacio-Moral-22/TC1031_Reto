@@ -41,6 +41,9 @@ class Registros{
             return hostNameDestino;
         };
 
+        std::string destinoIP(){
+            return ipDestino;
+        };
 };
 
 
