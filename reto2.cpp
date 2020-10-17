@@ -28,6 +28,7 @@ bool compareIPDestino(Registros<std::string> &a, Registros<std::string> &b){
 };
 
 int main(){
+    //Genera 2 vectores de la clase Registros, de la parte 1, 
     std::vector<class Registros<std::string>> registros;
     registros=readRecords();
     std::vector<class Registros<std::string>> registros2;
@@ -66,6 +67,7 @@ int main(){
         conexiones.push_back(c);
     }
 
+    //Permite al usuario ingresar un numero del 1 al 150 que se buscara en los registros
     std::string add;
     std::cout << "Dame un numero del 1 al 150 para buscar sus conexiones." << std::endl;
     std::getline(std::cin, add);

@@ -42,22 +42,26 @@ class ConexionesComputadoras{
             return nombre;
         }
 
+        //Manda el valor mas reciente en las conexionesEntrantes
         std::string getConexionesEntrantes(){
            std::string retornar = conexionesEntrandes.top();
            conexionesEntrandes.pop();
            return retornar;
         }
 
+        //Manda el valor mas anterior en las conexionesSalientes
         std::string getConexionesSalientes(){
             std::string retornar = conexionesSalientes.back();
             conexionesSalientes.pop();
             return retornar;
         }
 
+        //Manda que tantas conexionesEntrantes existen
         int getNumeroConexionesEntrantes(){
             return conexionesEntrandes.size();
         }
 
+        //Manda que tantas conexionesSalientes existen
         int getNumeroConexionesSalientes(){
             return conexionesSalientes.size();
         }
