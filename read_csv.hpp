@@ -1,4 +1,5 @@
-#pragma once
+#ifndef read_csv_hpp
+#define read_csv_hpp
 #include <fstream>
 #include <vector>
 #include <string>
@@ -129,3 +130,5 @@ void countPuertos(std::vector<class Registros<std::string>> &registros){
         std::cout << puertos.at(j) << std::endl;
     }
 }
+
+#endif
