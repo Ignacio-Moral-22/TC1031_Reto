@@ -7,8 +7,39 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <iterator>
+#include <algorithm>
 #include "clase_archivo.hpp"
 #include "ConexionesComputadoras.hpp"
+#include "clase_archivo.hpp"
+
+void checarAnomalias(std::set<std::string> ipsUnicas, std::map<std::string, std::string> hosts, std::string val1, std::string val2)
+{
+    std::map<std::string, std::string>::iterator it = hosts.begin();
+    while (it != hosts.end())
+    {
+        std::string name = it->first;
+        std::string ip = it->second;
+
+        std::set<std::string>::iterator it2 = ipsUnicas.begin();
+        while (it2 != ipsUnicas.end())
+        {
+            if((*it2)==ip)
+            {
+                std::cout << "Esta computadora si se ha conectado con un IP anomalo.\n" <<
+                "Se ha conectado con: " << val1 << " y tiene la IP: " << ip << std::endl;
+            } else if ((*it2)==ip)
+            {
+                std::cout << "Esta computadora si se ha conectado con un IP anomalo.\n" <<
+                "Se ha conectado con: " << val2 << " y tiene la IP: " << ip << std::endl;
+            }
+            it2++;
+        }
+
+        it++;
+    }
+    
+}
 
 std::vector<class Registros<std::string>> readRecords2(){
     std::ifstream valores("nuevo10.csv");
@@ -46,17 +77,18 @@ std::set<std::string> read()
         std::getline(valores, puertoDestino, ',');
         std::getline(valores, hostNameDestino, '\n');
         hndRes=hostNameDestino;
-        if(hostNameDestino.erase(0, hostNameDestino.length()-8)!="reto.com")
+        if(hostNameDestino.erase(0, hostNameDestino.length()-8)!="reto.com" && hndRes!="-")
         {
             hosts.insert(hndRes);
         }
     }
+
     return hosts;
 }
 
-std::map<std::string, std::string> read2()
+std::vector<class Registros<std::string>> read2()
 {
-    std::map<std::string, std::string> hosts2;
+    std::vector<class Registros<std::string>> hosts2;
     std::ifstream valores("nuevo10.csv");
     std::string fecha, hora, ipFuente, puertoFuente, hostNameFuente, ipDestino, puertoDestino, hostNameDestino, hndRes;
     while (valores.peek()!=EOF)
@@ -70,16 +102,35 @@ std::map<std::string, std::string> read2()
         std::getline(valores, puertoDestino, ',');
         std::getline(valores, hostNameDestino, '\n');
         hndRes=hostNameDestino;
-        if(hostNameDestino.erase(0, hostNameDestino.length()-8)!="reto.com")
+        if(hostNameDestino.erase(0, hostNameDestino.length()-8)!="reto.com" && hndRes!="-")
         {
-            hosts2.insert(std::make_pair(hndRes, ipDestino));
+            Registros<std::string> r(fecha, hora, ipFuente, puertoFuente, hostNameFuente, ipDestino, puertoDestino, hndRes);
+            hosts2.push_back(r);
         }
     }
-    for(auto& a: hosts2)
-    {
-        std::cout << a.first << "\n\t" << a.second << std::endl;
-    }
     return hosts2;
+}
+
+std::map<std::string, std::string> getIPAnomalo(std::set<std::string> &hosts, std::vector<class Registros<std::string>> &hosts2, std::string val1, std::string val2)
+{
+    std::map<std::string, std::string> ipAnomalos;
+    for(int i=0; i<hosts2.size(); i++)
+    {
+         for(auto& e: hosts)
+        {
+            if(e==hosts2.at(i).destinoHost() && (e==val1 || e==val2))
+            {
+                ipAnomalos.insert(std::make_pair(e, hosts2.at(i).destinoIP()));
+            }
+        }
+    }
+
+    for(const auto& u: ipAnomalos)
+    {
+        std::cout << u.first << ": " << u.second << std::endl;
+    }
+
+    return ipAnomalos;
 }
 
 std::map<std::string, ConexionesComputadoras<std::string>> diccionarios(std::vector<class ConexionesComputadoras<std::string>> &registros)
@@ -93,17 +144,22 @@ std::map<std::string, ConexionesComputadoras<std::string>> diccionarios(std::vec
         }
     }
 
-    for(auto& e: diccionario)
+    std::map<std::string, ConexionesComputadoras<std::string>>::iterator it = diccionario.begin();
+    // Iterate over the map using Iterator till end.
+    while (it != diccionario.end())
     {
-        if(e.second.getNumeroConexionesEntrantes()>1)
-        {
-            std::cout << e.first << "\t" << e.second.getNumeroConexionesEntrantes() << std::endl;
-        }
+        // Accessing KEY from element pointed by it.
+        std::string word = it->first;
+        // Accessing VALUE from element pointed by it.
+        int count = it->second.getNumeroConexionesSalientes();
+        std::cout << word << " :: " << count << std::endl;
+        // Increment the Iterator to point to next entry
+        it++;
     }
     return diccionario;
 }
 
-void printUniqueIPs(std::map<std::string, ConexionesComputadoras<std::string>> &diccionarios, int numeroIPs, std::map<std::string, std::string> hosts)
+void printUniqueIPs(std::map<std::string, ConexionesComputadoras<std::string>> &diccionarios, int numeroIPs, std::map<std::string, std::string> ipAnomalos, std::string val1, std::string val2)
 {
     for(int i=0; i<numeroIPs; i++)
     {
@@ -111,20 +167,30 @@ void printUniqueIPs(std::map<std::string, ConexionesComputadoras<std::string>> &
         std::cout << "Que IP quieres buscar sus conexiones?\n";
         std::cin >> ips;
         std::set<std::string> ipsUnicas;
-        for(int i=0; i<diccionarios[ips].getNumeroConexionesEntrantes(); i++)
+        std::cout << "El numero de conexiones entrantes totales son: " << diccionarios[ips].getNumeroConexionesSalientes() << std::endl;
+        for(size_t i=0; i<diccionarios[ips].getNumeroConexionesSalientes(); i++)
         {
             std::string ipUnica;
-            ipUnica=diccionarios[ips].getConexionesEntrantes();
+            ipUnica=diccionarios[ips].getConexionesSalientes();
             ipsUnicas.insert(ipUnica);
         }
-        for(auto&e : ipsUnicas)
+
+        std::set<std::string>::iterator it = ipsUnicas.begin();
+        // Iterate till the end of set
+        while (it != ipsUnicas.end())
         {
-            std::cout << e << " ";
+            // Print the element
+            std::cout << (*it) << " , ";
+            //Increment the iterator
+            it++;
         }
         std::cout << std::endl;
 
+        checarAnomalias(ipsUnicas, ipAnomalos, val1, val2);
+
     }
 }
+
 
 
 

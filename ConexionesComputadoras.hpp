@@ -51,7 +51,7 @@ class ConexionesComputadoras{
 
         //Manda el valor mas anterior en las conexionesSalientes
         std::string getConexionesSalientes(){
-            std::string retornar = conexionesSalientes.back();
+            std::string retornar = conexionesSalientes.front();
             conexionesSalientes.pop();
             return retornar;
         }
