@@ -145,15 +145,11 @@ std::map<std::string, ConexionesComputadoras<std::string>> diccionarios(std::vec
     }
 
     std::map<std::string, ConexionesComputadoras<std::string>>::iterator it = diccionario.begin();
-    // Iterate over the map using Iterator till end.
     while (it != diccionario.end())
     {
-        // Accessing KEY from element pointed by it.
-        std::string word = it->first;
-        // Accessing VALUE from element pointed by it.
-        int count = it->second.getNumeroConexionesSalientes();
-        std::cout << word << " :: " << count << std::endl;
-        // Increment the Iterator to point to next entry
+        std::string ips = it->first;
+        int conexiones = it->second.getNumeroConexionesSalientes();
+        std::cout << "IP: " << ips << ", Conexiones Salientes: " << conexiones << std::endl;
         it++;
     }
     return diccionario;
