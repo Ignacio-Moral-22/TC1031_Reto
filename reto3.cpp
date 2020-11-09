@@ -19,4 +19,5 @@ int main(){
     std::cout << "Cuantas conexiones quieres ver sus IPs?" << std::endl;
     std::cin >> i;
     printUniqueIPs(diccionario, i, ipAnomalos, "c8dzweh1e382v74a2pn5.xxx", "v7lgvx4laf7ba9xmzhnh.com");
+    return 0;
 }
