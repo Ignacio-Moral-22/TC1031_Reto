@@ -8,6 +8,8 @@
 #include "sorter.hpp"
 #include "reto_parte_3.hpp"
 
+//Similar a parte 2, guardar Conexiones
+
 bool compareIPFuente(Registros<std::string> &a, Registros<std::string> &b)
 {
     return a.fuenteIP()<b.fuenteIP();

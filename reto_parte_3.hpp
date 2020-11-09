@@ -13,6 +13,7 @@
 #include "ConexionesComputadoras.hpp"
 #include "clase_archivo.hpp"
 
+//Checar anomalias en conexionesSalientes de las IPs
 void checarAnomalias(std::set<std::string> ipsUnicas, std::map<std::string, std::string> hosts, std::string val1, std::string val2)
 {
     std::map<std::string, std::string>::iterator it = hosts.begin();
@@ -41,6 +42,7 @@ void checarAnomalias(std::set<std::string> ipsUnicas, std::map<std::string, std:
     
 }
 
+//Guardar vector de Objetos Registros
 std::vector<class Registros<std::string>> readRecords2(){
     std::ifstream valores("nuevo10.csv");
     std::string fecha, hora, ipFuente, puertoFuente, hostNameFuente, ipDestino, puertoDestino, hostNameDestino;
@@ -61,6 +63,7 @@ std::vector<class Registros<std::string>> readRecords2(){
     return registros;
 };
 
+//Solo guarda el set de hostnamedestinos que no sean reto.com o "-"
 std::set<std::string> read()
 {
     std::set<std::string> hosts;
@@ -86,6 +89,7 @@ std::set<std::string> read()
     return hosts;
 }
 
+//Guardar vector de Objetos Registros, pero no guarda hostnamesdestino que sean reto.com o "-"
 std::vector<class Registros<std::string>> read2()
 {
     std::vector<class Registros<std::string>> hosts2;
@@ -111,6 +115,7 @@ std::vector<class Registros<std::string>> read2()
     return hosts2;
 }
 
+//Map de IPs Anomalos
 std::map<std::string, std::string> getIPAnomalo(std::set<std::string> &hosts, std::vector<class Registros<std::string>> &hosts2, std::string val1, std::string val2)
 {
     std::map<std::string, std::string> ipAnomalos;
@@ -133,6 +138,7 @@ std::map<std::string, std::string> getIPAnomalo(std::set<std::string> &hosts, st
     return ipAnomalos;
 }
 
+//Map de string y ConexionesComputadoras
 std::map<std::string, ConexionesComputadoras<std::string>> diccionarios(std::vector<class ConexionesComputadoras<std::string>> &registros)
 {
     std::map<std::string, ConexionesComputadoras<std::string>> diccionario;
@@ -155,6 +161,7 @@ std::map<std::string, ConexionesComputadoras<std::string>> diccionarios(std::vec
     return diccionario;
 }
 
+//Imprime conexiones salientes
 void printUniqueIPs(std::map<std::string, ConexionesComputadoras<std::string>> &diccionarios, int numeroIPs, std::map<std::string, std::string> ipAnomalos, std::string val1, std::string val2)
 {
     for(int i=0; i<numeroIPs; i++)
@@ -163,7 +170,7 @@ void printUniqueIPs(std::map<std::string, ConexionesComputadoras<std::string>> &
         std::cout << "Que IP quieres buscar sus conexiones?\n";
         std::cin >> ips;
         std::set<std::string> ipsUnicas;
-        std::cout << "El numero de conexiones entrantes totales son: " << diccionarios[ips].getNumeroConexionesSalientes() << std::endl;
+        std::cout << "El numero de conexiones salientes totales son: " << diccionarios[ips].getNumeroConexionesSalientes() << std::endl;
         for(size_t i=0; i<diccionarios[ips].getNumeroConexionesSalientes(); i++)
         {
             std::string ipUnica;
@@ -172,12 +179,9 @@ void printUniqueIPs(std::map<std::string, ConexionesComputadoras<std::string>> &
         }
 
         std::set<std::string>::iterator it = ipsUnicas.begin();
-        // Iterate till the end of set
         while (it != ipsUnicas.end())
         {
-            // Print the element
             std::cout << (*it) << " , ";
-            //Increment the iterator
             it++;
         }
         std::cout << std::endl;
