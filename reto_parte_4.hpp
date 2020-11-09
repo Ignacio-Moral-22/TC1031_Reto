@@ -9,17 +9,24 @@
 
 std::map<std::string, int, std::greater<>> conexionesPorDia(std::string fecha)
 {
+    //Gererar vector para poder hacer el mapa con los valores
     std::vector<class Registros<std::string>> registros;
+    //Generar el mapa, usando greater<> para organizar de mayor a menor
     std::map<std::string, int, std::greater<>> conexionesDiarias;
+    //Guardar los valores
     registros=readRecords();
+    //For loop para visitar todo el vector
     for (int i=0; i<registros.size();i++){
+        //Revisar si sea la fecha, y que no sea "-" el HostDestino
         if (registros.at(i).date() == fecha && registros.at(i).destinoHost() != "-"){
+            //Revisar que no acabe en reto.com
             if(registros.at(i).destinoHost().erase(0, registros.at(i).destinoHost().length()-8)!="reto.com"){
                 conexionesDiarias[registros.at(i).destinoHost()]++;
             }   
         }
     }
 
+    // Funcion utilizada para probar impresiones
     // std::map<std::string, int>::iterator it = conexionesDiarias.begin();
     // while (it != conexionesDiarias.end())
     // {
@@ -32,16 +39,21 @@ std::map<std::string, int, std::greater<>> conexionesPorDia(std::string fecha)
     return conexionesDiarias;
 }
 
+//Funcion para imprimir todos los dias y registros por dia
 void diasTotales()
 {
+    //Generar mapa
     std::map<std::string, int> dias;
+    //Generar vector con registros
     std::vector<class Registros<std::string>> registros;
     registros=readRecords();
+    //Guardar fechas y registros por dia
     for(int i=0; i<registros.size(); i++)
     {
         dias[registros.at(i).date()]++;
     }
 
+    //Loop para imprimir valores
     std::map<std::string, int>::iterator it = dias.begin();
     while (it != dias.end())
     {
@@ -53,52 +65,39 @@ void diasTotales()
 
 }
 
-// void top(int n, std::string fecha)
-// {
-//     std::map<std::string, int> conexiones;
-//     conexiones=conexionesPorDia(fecha);
-//     BinarySearchTree<int> BST;
-//     std::map<std::string, int>::iterator it = conexiones.begin();
-//     while (it != conexiones.end())
-//     {
-//         std::string ips = it->first;
-//         int conexion = it->second;
-//         BST.insert_node(conexion);
-//         it++;
-//     }
-//     BST.print_preorder();
-//     BST.inverse(BST.root);
-//     BST.print_preorder();
-
-// }
 
 
-std::map<int, std::string, std::greater<>> invert(std::map<std::string, int, std::greater<>> & mymap)
+//Invertir orden del mapa para usar BinarySearchTrees
+std::map<int, std::string, std::greater<>> invert(std::map<std::string, int, std::greater<>> & conexionesDiarias)
 {
-    std::map<int, std::string, std::greater<>> multiMap;
-
-    std::map<std::string, int> :: iterator it = mymap.begin();
-    while (it != mymap.end())
+    std::map<int, std::string, std::greater<>> mapa2;
+    std::map<std::string, int> :: iterator it = conexionesDiarias.begin();
+    while (it != conexionesDiarias.end())
     {
         std::string ips = it->first;
         int conexiones = it->second;
-        multiMap.insert(std::make_pair(conexiones, ips));
+        mapa2.insert(std::make_pair(conexiones, ips));
         it++;
     }
-    return multiMap;
+    return mapa2;
 }
 
+//Imprimir el top n de cada fecha
 void top(int n, std::string fecha)
 {
     std::string str;
     int val = 0;
+    //Arbol por defecto
     BinarySearchTree BST(str, val);
-    std::map<std::string, int, std::greater<>>dict = conexionesPorDia(fecha);
-    std::map<int, std::string, std::greater<>> newmap = invert(dict);
+    //Generar mapa
+    std::map<std::string, int, std::greater<>> conexionesDiarias = conexionesPorDia(fecha);
+    //Invertir orden mapa
+    std::map<int, std::string, std::greater<>> mapa2 = invert(conexionesDiarias);
 
     int i=0;
-    std::map<int, std::string>::iterator it = newmap.begin();
-    while (it != newmap.end())
+    //Guardar valores en el arbol
+    std::map<int, std::string>::iterator it = mapa2.begin();
+    while (it != mapa2.end())
     {
         int conexiones = it->first;
         std::string ips = it->second;
@@ -111,7 +110,9 @@ void top(int n, std::string fecha)
     }
 
     std::cout << std::endl;
+    //Invertir el arbol para poder imprimir de mayor a menor
     BST.invert(BST.getRoot());
+    //Imprimir inOrder, que haria de mayor a menor
     BST.inorder(BST.getRoot()); 
 }
 

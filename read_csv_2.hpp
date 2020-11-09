@@ -6,6 +6,7 @@
 #include <iostream>
 #include "clase_archivo.hpp"
 
+
 std::vector<class Registros<std::string>> readRecords(){
     std::ifstream valores("nuevo10.csv");
     std::string fecha, hora, ipFuente, puertoFuente, hostNameFuente, ipDestino, puertoDestino, hostNameDestino;
