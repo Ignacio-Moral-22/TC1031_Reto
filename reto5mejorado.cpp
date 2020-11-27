@@ -9,6 +9,11 @@
 int main(){
     std::vector<class Registros<std::string>> registros;
     registros = readRecords();
+    std::vector<std::string> direccionesIP;
+    for(int i=0; i<registros.size(); i++)
+    {
+        direccionesIP.push_back(registros.at(i).fuenteIP());
+    }
     std::vector<int> idx;
     std::string ip, val, date;
     ip="172.26.113.";
@@ -81,8 +86,29 @@ int main(){
             // grafo.add_edge(vecinosSalientes.at(k), idx);
         }
     */
-    Graph<std::string> internoDia1;
-    internoDia1 = checkGraphs(ip, idx, dates.at(0), 0);
-    internoDia1.DFS(idx.at(0));
+    std::vector<class Graph<std::string>> internosPorDias;
+    for(int i=0; i<dates.size(); i++)
+    {
+        std::vector<int> vecinosSalientes, vecinosEntrantes;
+        Graph<std::string> internoPorDia;
+        internoPorDia = checkGraphs(ip, idx, dates.at(i), i, vecinosEntrantes, vecinosSalientes);
+        internosPorDias.push_back(internoPorDia);
+        std::cout << "El dia " << dates.at(i) << " la computadora escogida tuvo estas conexiones: ";
+        internosPorDias.at(i).BFS(idx.at(i));
+        std::cout << std::endl;
+        //Para la pregunta 2, de conexiones entrantes por dia
+        if(vecinosEntrantes.size()>0)
+        {
+            std::cout << "\t\tEste mismo dia, se conectaron a esta computadora estas IPs: ";
+            for(int j=0; j<vecinosEntrantes.size(); j++)
+            {
+                std::cout << internosPorDias.at(i).showValue(vecinosEntrantes.at(j)) << ", ";
+            }
+            std::cout << std::endl << std::endl;
+        }
+    }
+
+    std::vector<class Graph<std::string>> hostsDestinosRaros;
+    
     return 0;
 }
