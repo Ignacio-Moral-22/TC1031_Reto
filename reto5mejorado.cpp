@@ -5,7 +5,10 @@
 #include "read_csv_2.hpp"
 #include "clase_archivo.hpp"
 #include "reto_5.hpp"
-
+/*
+Ignacio Joaquin Moral
+A01028470
+*/
 int main(){
     std::vector<class Registros<std::string>> registros;
     registros = readRecords();
@@ -33,59 +36,8 @@ int main(){
     dates.push_back("19-8-2020");
     dates.push_back("20-8-2020");
     dates.push_back("21-8-2020");
-    /*
-    Graph<std::string> internoDia1;
-    std::vector<int> vecinosSalientes, vecinosEntrantes;
-    int i=0;
-    date=registros.at(i).date();
-    dates.push_back(date);
-    int first = internoDia1.add_node(ip);
-    idx.push_back(first);
-    while(i<registros.size())
-    {
-        if (registros.at(i).date() != date)
-        {
-            i++;
-        } else
-        {
-            while(registros.at(i).date()==date)
-            {
-                if(registros.at(i).fuenteIP()==ip)
-                {
-                    std::string vecinoSalida, dummy;
-                    vecinoSalida=registros.at(i).destinoIP();
-                    dummy=vecinoSalida;
-                    if(dummy.size()>10 && dummy.erase(10, dummy.size()) == "172.26.113")
-                    {
-                        int idSalida=internoDia1.add_node(vecinoSalida);
-                        vecinosSalientes.push_back(idSalida);
-                    }
-                } else if (registros.at(i).destinoIP() == ip)
-                {
-                    std::string vecinoEntrada, dummy;
-                    vecinoEntrada=registros.at(i).fuenteIP();
-                    dummy=vecinoEntrada;
-                    if(dummy.size()>10 && dummy.erase(10, dummy.size()) == "172.26.113")
-                    {
-                        int idEntrada=internoDia1.add_node(vecinoEntrada);
-                        vecinosEntrantes.push_back(idEntrada);
-                    }
-                }
-                i++;
-            } 
-        }
-    }
-    for(int j=0; j<vecinosEntrantes.size(); j++)
-        {
-            internoDia1.add_edge(vecinosEntrantes.at(j), idx.at(0));
-            // grafo.add_edge(idx, vecinosEntrantes.at(j));
-        }
-    for(int k=0; k<vecinosSalientes.size(); k++)
-        {
-            internoDia1.add_edge(idx.at(0), vecinosSalientes.at(k));
-            // grafo.add_edge(vecinosSalientes.at(k), idx);
-        }
-    */
+    
+    //Esta funcion genera el vector de grafos de conexiones internas
     std::vector<class Graph<std::string>> internosPorDias;
     for(int i=0; i<dates.size(); i++)
     {
@@ -95,20 +47,43 @@ int main(){
         internosPorDias.push_back(internoPorDia);
         std::cout << "El dia " << dates.at(i) << " la computadora escogida tuvo estas conexiones: ";
         internosPorDias.at(i).BFS(idx.at(i));
-        std::cout << std::endl;
-        //Para la pregunta 2, de conexiones entrantes por dia
+        // Para la pregunta 2, de conexiones entrantes por dia
         if(vecinosEntrantes.size()>0)
         {
-            std::cout << "\t\tEste mismo dia, se conectaron a esta computadora estas IPs: ";
-            for(int j=0; j<vecinosEntrantes.size(); j++)
-            {
-                std::cout << internosPorDias.at(i).showValue(vecinosEntrantes.at(j)) << ", ";
-            }
-            std::cout << std::endl << std::endl;
+            std::cout  << "\t\tLas conexiones entrantes a esta ip en este dia fueron " << vecinosEntrantes.size() << std::endl;
         }
     }
-
-    std::vector<class Graph<std::string>> hostsDestinosRaros;
+    std::cout << std::endl;
     
+    //Esta parte de la funcion permite buscar cuantas conexiones al IP anomalo se hicieron.
+    std::string ipAnomalo = "c8dzweh1e382v74a2pn5.xxx";
+    std::vector<class Graph<std::string>> hostsDestinos;
+    for(int i=0; i<dates.size(); i++)
+    {
+        std::vector<int> vecinosEntrantes;
+        Graph<std::string> hostsDestinoAnomalos;
+        hostsDestinoAnomalos = checkGraphsHosts(ipAnomalo, idx, dates.at(i), i, vecinosEntrantes);
+        hostsDestinos.push_back(hostsDestinoAnomalos);
+        if(vecinosEntrantes.size()>0)
+        {
+            std::cout << "El dia " << dates.at(i) << " se conectaron " << vecinosEntrantes.size() << " computadoras al ip Anomalo." << std::endl;
+        }
+    }
+    std::cout << std::endl;
+
+    //Esta parte de la funcion permite buscar el IP mas transcurrido
+    std::string ipTranscurrido = "freemailserver.com";
+    std::vector<class Graph<std::string>> hostsDestinosTranscurridos;
+    for(int i=0; i<dates.size(); i++)
+    {
+        std::vector<int> vecinosEntrantes;
+        Graph<std::string> hostsDestinoTranscurrido;
+        hostsDestinoTranscurrido = checkGraphsHosts(ipTranscurrido, idx, dates.at(i), i, vecinosEntrantes);
+        hostsDestinosTranscurridos.push_back(hostsDestinoTranscurrido);
+        if(vecinosEntrantes.size()>0)
+        {
+            std::cout << "El dia " << dates.at(i) << " se conectaron " << vecinosEntrantes.size() << " computadoras al ip Transcurrido." << std::endl;
+        }
+    }    
     return 0;
 }

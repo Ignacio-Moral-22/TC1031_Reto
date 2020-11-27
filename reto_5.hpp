@@ -1,6 +1,7 @@
 #ifndef RETO_5_HPP
 #define RETO_5_HPP
 #include <vector>
+#include <iostream>
 #include "graph.hpp"
 #include "clase_archivo.hpp"
 #include "read_csv_2.hpp"
@@ -54,16 +55,17 @@ Graph<std::string> checkGraphs(std::string ip, std::vector<int> &idx, std::strin
         {
             internoDia1.add_edge(idx.at(index), vecinosSalientes.at(k));
         }
+    std::cout << "Las conexiones salientes de esta compania fueron: " << vecinosSalientes.size() << std::endl;
     return internoDia1;
 }
 
 
-Graph<std::string> checkGraphsHosts(std::string ip, std::vector<int> &idx, std::string date, int index, std::vector<int> &vecinosEntrantes)
+Graph<std::string> checkGraphsHosts(std::string hostDestino, std::vector<int> &idx, std::string date, int index, std::vector<int> &vecinosEntrantes)
 {
     std::vector<class Registros<std::string>> registros;
     registros = readRecords();
     Graph<std::string> internoDia1;
-    int first = internoDia1.add_node(ip);
+    int first = internoDia1.add_node(hostDestino);
     idx.push_back(first);
     int i=0;
     while(i<registros.size())
@@ -75,7 +77,7 @@ Graph<std::string> checkGraphsHosts(std::string ip, std::vector<int> &idx, std::
         {
             while(i<registros.size() && registros.at(i).date()==date)
             {
-                if (registros.at(i).destinoIP() == ip)
+                if (registros.at(i).destinoHost() == hostDestino)
                 {
                     std::string vecinoEntrada, dummy;
                     vecinoEntrada=registros.at(i).fuenteIP();

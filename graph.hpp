@@ -21,18 +21,6 @@ class Nodo
 
         std::vector<int> get_adj() {return adjacents;};
         void add_to_adj(int idx) {adjacents.push_back(idx);};
-
-        bool vecino(int vecino)
-        {
-            for(int i=0; i<adjacents.size(); i++)
-            {
-                if(adjacents.at(i)==vecino)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
 };
 
 template <class T>
@@ -130,11 +118,6 @@ public:
         }
 
         std::cout << std::endl;
-    }
-
-    T showValue(int idx)
-    {
-        return nodos.at(idx).get_val();
     }
 
 };
