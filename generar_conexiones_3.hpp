@@ -12,12 +12,12 @@
 
 bool compareIPFuente(Registros<std::string> &a, Registros<std::string> &b)
 {
-    return a.fuenteIP()<b.fuenteIP();
+    return a.fuenteIP()>b.fuenteIP();
 };
 
 bool compareIPDestino(Registros<std::string> &a, Registros<std::string> &b)
 {
-    return a.destinoIP()<b.destinoIP();
+    return a.destinoIP()>b.destinoIP();
 };
 
 std::vector<class ConexionesComputadoras<std::string>> genera_conexiones()

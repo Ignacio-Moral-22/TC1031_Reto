@@ -11,7 +11,6 @@
 #include <algorithm>
 #include "clase_archivo.hpp"
 #include "ConexionesComputadoras.hpp"
-#include "clase_archivo.hpp"
 
 //Checar anomalias en conexionesSalientes de las IPs
 void checarAnomalias(std::set<std::string> ipsUnicas, std::map<std::string, std::string> hosts, std::string val1, std::string val2)
@@ -154,8 +153,8 @@ std::map<std::string, ConexionesComputadoras<std::string>> diccionarios(std::vec
     while (it != diccionario.end())
     {
         std::string ips = it->first;
-        int conexiones = it->second.getNumeroConexionesSalientes();
-        std::cout << "IP: " << ips << ", Conexiones Salientes: " << conexiones << std::endl;
+        int conexiones = it->second.getNumeroConexionesEntrantes();
+        std::cout << "IP: " << ips << ", Conexiones Entrantes: " << conexiones << std::endl;
         it++;
     }
     return diccionario;
